@@ -1,0 +1,52 @@
+// solution in one pass!!!!!!!!!!
+// 
+public ListNode removeNthFromEnd(ListNode head, int n) {
+    ListNode dummy=new ListNode(0);
+    dummy.next=head;
+    ListNode fast=dummy;
+    ListNode slow=dummy;
+    int temp=n;
+    for(;fast.next!=null;temp--){ // make the distance between the slow node and fast node is n
+        if(temp<=0){ //control
+            slow=slow.next;
+        }
+        fast=fast.next;
+    }
+    slow.next=slow.next.next;//delete Nth
+    return dummy.next;
+}
+
+
+// my own solution
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode current = head;
+        int size = 0;
+        while(current != null){
+          current = current.next;
+          size++;
+        }
+        ListNode temp = new ListNode(0); // temp equals to dummy node
+        temp.next= head;
+        int count = 0;
+        if(n == size){
+            head = head.next;
+        }else{
+            while(count != size - n){
+                temp = temp.next;
+                count ++;
+            }
+            temp.next = temp.next.next;
+        }
+        return head;
+    }
+}
