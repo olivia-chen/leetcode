@@ -1,0 +1,30 @@
+public class Solution {
+    public String convert(String s, int numRows) {
+        
+        StringBuilder result = new StringBuilder(); // new StringBuilder
+        if( s.length() <= numRows || numRows <=1 ){
+            return s;
+        }else{
+            for(int i = 0; i < numRows; i ++){
+            
+                if( i == 0 || i == numRows - 1){ //the first and the last row
+                    int j = 0;
+                    while(i + (numRows+numRows-2)*j < s.length()){
+                        result = result.append(s.charAt(i + (numRows+numRows-2)*j));
+                        j++;
+                    }
+                }else{
+                    int a = 0;
+                    while((i + (numRows+numRows-2)*a) < s.length()){
+                        result = result.append(s.charAt(i + (numRows+numRows-2)*a));
+                        if((numRows+numRows-2-i+(numRows+numRows-2)*a) < s.length()){ //if the next one exsit, append
+                         result = result.append(s.charAt(numRows+numRows-2-i+(numRows+numRows-2)*a));
+                        }
+                        a++;
+                    }
+                }
+            }
+            return result.toString();
+         }
+        }
+}
