@@ -21,3 +21,22 @@ public class Solution {
         return len;    
     }
 }
+
+
+//no need temp array
+
+public class Solution {
+    public int removeElement(int[] nums, int val) {
+        int j = 0;
+        int len = nums.length;
+        if(len > 0){
+            for(int i = 0; i < len; i++){
+                if(nums[i] != val){
+                    nums[j] = nums[i];
+                    j++; // ++j also works
+                }
+            }
+        }
+        return j; // j can not be replaced with nums.length
+    }
+}
