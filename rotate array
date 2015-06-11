@@ -1,0 +1,44 @@
+//rotate a n elements array by k steps
+//1. new 2 temp array
+public class Solution {
+    public void rotate(int[] nums, int k) {
+       k = k % nums.length;
+      if(k != 0){
+         int[] temp1 = new int[k];
+         int[] temp2 = new int[nums.length - k];
+         for(int i = 0; i < k; i++){
+             temp1[i] = nums[nums.length - k + i];
+         }
+         for(int i = 0; i < nums.length - k; i++){
+             temp2[i] = nums[i];
+         }
+         for(int i = 0; i < nums.length; i++){
+            if(i >= k){
+                 nums[i] = temp2[i - k];
+             }else{
+             nums[i] = temp1[i];
+             }
+         }
+      } 
+    }
+}
+
+//1.5 use string, but didn't consider the negative int
+public static void rotate(int[] nums, int k) {
+      k = k % nums.length;
+      if(k != 0){
+         String str = "";
+         for(int i = 0; i< nums.length; i++){
+            str = str + nums[i]; // can not use toString, since the array to string is like [1,2]
+         }
+         System.out.println(str);
+         str = str.substring(nums.length - k).concat(str.substring(0, nums.length - k));
+         System.out.println(str);
+         for(int i = 0; i< nums.length; i ++){
+            nums[i] = Integer.parseInt(str.substring(i,i+1)); // the method Interger.parseInt(String), otherwise is ASC2 code
+         }
+         System.out.println(nums[0]);
+      } 
+   }
+   
+   
