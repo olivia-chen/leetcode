@@ -1,0 +1,22 @@
+public class Solution {
+   public int climbStairs(int n) {
+        /*if(n == 1 || n == 0){
+            return 1;
+        }else{ 
+            return climbStairs(n - 1) + climbStairs(n - 2);
+         }
+    }*/  TIME LIMITED 
+    if(n <= 2){
+        return n;
+    }else{
+        int temp1 = 1;
+        int temp2 = 2;
+        int temp3 = 0;
+        for(int i = 0; i < n - 2; i++){
+            temp3 = temp1 + temp2;
+            temp1 = temp2;
+            temp2 = temp3;
+        }
+        return temp3; //   IT'S A FIBONACCI NUMBERS
+    }
+}
