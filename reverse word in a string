@@ -1,0 +1,20 @@
+public class Solution {
+    public String reverseWords(String s) {
+        String result = "";
+        int j = 0;
+        s = s.trim();
+        for(int i = 0; i< s.length();i++){
+            String temp = "";       // THE KEY POINT, REFRESH EVERYTIME
+            if (s.charAt(i) != ' '){
+                j = i;
+                while(j < s.length() && s.charAt(j) != ' '){
+                        temp += s.charAt(j);
+                        j++;
+                }
+                result = temp + " " + result;
+                i = j - 1;
+            }
+      }
+      return result.trim();
+    }
+}
