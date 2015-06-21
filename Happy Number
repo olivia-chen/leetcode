@@ -27,3 +27,5 @@ public class Solution {
 
 //I tried to use Integer.toString(), but it will cause run time error, since everytime should build a new string ><
 //use set to end the cycle, or it will cause stack over flow
+
+//could use .pow(base, exponenet) -> Math.pow(n, 2) = n * n
