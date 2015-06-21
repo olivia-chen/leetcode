@@ -1,0 +1,25 @@
+public class Solution {
+    public boolean isHappy(int n) {
+        HashSet set = new HashSet();
+        return isHappy(n,set);
+    }
+    private boolean isHappy(int n, HashSet<Integer> set){
+        if(n == 1){
+            return true;
+        }else{
+            int a = 0;
+            while(n > 9){
+                int j = n % 10;
+                n = n / 10;
+                a += j * j;
+            }
+            a += n * n;
+            if(!set.contains(a)){
+                set.add(a);
+                return isHappy(a, set);
+            }else{
+                return false;
+            }
+     }
+    }
+}
