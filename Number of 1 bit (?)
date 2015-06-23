@@ -1,0 +1,42 @@
+// wrong anwser but dont' know why
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        int count = 0;
+        int zero = 0;
+        if(n <= 0 ){
+            return count;
+        }
+        if(n == 2147483648){
+            return 1;
+        }
+        long ln = n;
+        while(count < 33 && ln > 0){
+            if(ln % 2 == 1){
+                count++;
+            }else{
+                zero++;
+            }
+            ln = ln / 2;
+        }
+        return count;
+    }
+}
+
+// accepted 
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        int count = 0;
+        while( n != 0){
+            count += n & 1;
+            n = n >>> 1;
+        }
+        return count;
+    }
+}
+
+// Bitwise Operator:
+// &, return 1 only when 1&1(both true)
+// |, return 1 when there is 1
+// ^, XOR, return 1 when there is only one 1, 1^0 or 0^1
