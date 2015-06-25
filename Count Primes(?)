@@ -1,0 +1,64 @@
+//  time limited error version
+public class Solution {
+    public int countPrimes(int n) {
+        HashSet<Integer> primes = new HashSet<Integer>();
+        if(n < 3){
+            return 0;
+        }
+        int count = 1;
+        primes.add(2);
+        for(int i = 3; i < n; i = i+2){
+            if(isPrime(i,primes)){
+                primes.add(i);
+                count++;
+            }
+        }
+        return count;
+    }
+    private boolean isPrime(int i, HashSet<Integer> primes){
+        if(i % 5 == 0){
+            return false;
+        }
+        for(int j : primes){
+          if(j <= Math.sqrt(n)){
+            if(i % j == 0){
+                return false;
+            }
+          } 
+        }
+        return true;
+    }
+}
+
+
+//accepted verstion: change HashSet to ArrayList
+public class Solution {
+    public int countPrimes(int n) {
+        ArrayList<Integer> primes = new ArrayList<Integer>();
+        if(n < 3){
+            return 0;
+        }
+        int count = 1;
+        primes.add(2);
+        for(int i = 3; i < n; i = i+2){
+            if(isPrime(i,primes)){
+                primes.add(i);
+                count++;
+            }
+        }
+        return count;
+    }
+    private boolean isPrime(int i, ArrayList<Integer> primes){
+        if(i != 5 && i % 5 == 0){
+            return false;
+        }
+        int j = 0;
+        while(primes.get(j) <= Math.sqrt(i)){
+            if(i % primes.get(j) == 0){
+                return false;
+            }
+            j++;
+        }
+        return true;
+    }
+}
