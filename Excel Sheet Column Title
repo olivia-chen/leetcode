@@ -1,0 +1,17 @@
+public class Solution {
+    public String convertToTitle(int n) {
+      StringBuilder str = new StringBuilder();
+      while(n > 0){
+         int i = n % 26;
+         if(i == 0){
+            i += 26;
+            n = n / 26 - 1;
+         }
+         else{
+            n = n / 26;
+         }
+         str = str.insert(0, (char)(i - 1 + 'A' ));
+      }
+      return str.toString();
+    }
+}
