@@ -1,0 +1,25 @@
+class MinStack {
+    Stack s = new Stack();
+    Stack min = new Stack();
+    public void push(int x) {
+       if(min.empty() || x <= (int)min.peek()){
+               min.push(x);
+       }
+       s.push(x);
+    }
+
+    public void pop() {
+        if((int)min.peek() == (int)s.peek()){
+            min.pop();
+        }
+        s.pop();
+    }
+
+    public int top() {
+        return (int)s.peek();
+    }
+
+    public int getMin() {
+       return (int)min.peek();
+    }
+}
