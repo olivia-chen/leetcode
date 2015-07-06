@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        Queue qTree = new LinkedList();
+       if(root != null){
+           qTree.add(root);
+           while(! qTree.isEmpty()){
+               int size = qTree.size();
+               List<Integer> level = new ArrayList<Integer>();   // can not use .clear(), would cause list = null
+               for(int i = 0; i < size; i++){          //  nodes in each level generate next level
+                   TreeNode temp = (TreeNode)qTree.remove();
+                   level.add(temp.val);
+                   if(temp.left != null){
+                       qTree.add(temp.left);
+                   }
+                   if(temp.right != null){
+                       qTree.add(temp.right);
+                   }
+               }
+               list.add(0, level); // the only difference with "traversal 1"
+           }
+       }
+        return list;
+    }
+}
