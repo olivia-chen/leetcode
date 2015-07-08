@@ -1,0 +1,30 @@
+public class Solution {
+    public String countAndSay(int n) {
+        StringBuilder s = new StringBuilder();
+        int a = 1;
+        s.append(1);
+        if(n > 1){
+             while(a < n){
+                StringBuilder r = new StringBuilder();
+                s = countandsay(r, s, 1, s.length());
+                a++;
+            }
+        }
+       return s.toString(); 
+    }
+    private static StringBuilder countandsay(StringBuilder result, StringBuilder s, int k, int len){
+      for(int i = 1; i < len; i++){
+         if(s.charAt(i) != s.charAt(i - 1)){
+            result.append(k);
+            result.append(s.charAt(i - 1));
+            k = 1;
+         }
+         else{
+            k++;
+         }
+      }
+      result.append(k);
+      result.append(s.charAt(len - 1));
+      return result;
+   }
+}
