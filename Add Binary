@@ -1,0 +1,33 @@
+public class Solution {
+    public String addBinary(String a, String b) {
+      StringBuilder result = new StringBuilder();
+      int i = a.length() - 1;
+      int j = b.length() - 1;
+      int temp = 0;
+      char m = '0';
+      char n = '0';
+      while(i >= 0 || j >= 0){
+         if(i < 0 && j >= 0){
+            m = '0';
+            n = b.charAt(j);
+         }
+         else if(j < 0 && i >= 0){
+            n = '0';
+            m = a.charAt(i);
+         }
+         else{
+            m = a.charAt(i);
+            n = b.charAt(j);
+         }
+         result.insert(0, (m + n + temp) % 2);
+         temp = (Character.getNumericValue(m) + Character.getNumericValue(n) + temp)/ 2; // change char to int!!!
+         i--;
+         j--;
+      }
+      if(temp == 1){
+         result.insert(0, 1);
+      }
+      return result.toString();
+    }
+    
+}
