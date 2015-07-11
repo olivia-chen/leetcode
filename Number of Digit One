@@ -1,0 +1,21 @@
+public class Solution {
+    public int countDigitOne(int n) {
+        if(n <= 0 ){
+          return 0;  
+        }else if(n < 10){
+           return 1; 
+        }else{
+            StringBuilder s = new StringBuilder();
+            s.append(n);
+            int i = s.length();
+            int m = (int)Math.pow(10, i-1);
+            int j = (int)(n % m);
+            int k = (int)(n / m);
+                if(k == 1){
+                    return countDigitOne(m - 1) + j + 1 + countDigitOne(j);
+                }else{
+                    return k * countDigitOne(m - 1) + m + countDigitOne(j); 
+                }
+        }
+    }
+}
