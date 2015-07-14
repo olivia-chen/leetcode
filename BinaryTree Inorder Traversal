@@ -21,3 +21,34 @@ public class Solution {
         }
     }
 }
+
+
+// stack way
+
+public class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+      List<Integer> list = new ArrayList<Integer>();
+      Stack<TreeNode> stack = new Stack<TreeNode>();
+      if(root != null){
+          TreeNode curr = root;
+          stack.push(curr);
+          while(!stack.empty()){
+             while(curr.left != null){
+                stack.push(curr.left);
+                curr = curr.left;
+             }
+             if(stack.peek().right == null){
+                int temp = stack.pop().val;
+                list.add(temp);
+             }
+             else{
+                TreeNode temp = stack.pop();
+                stack.push(temp.right);
+                curr = temp.right;
+                list.add(temp.val);
+             }
+          }
+      }
+      return list;
+    }
+}
