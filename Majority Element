@@ -19,3 +19,20 @@ public class Solution {
         return 0;
     }
 }
+
+// Boyer-moore vote algorithm
+public class Solution {
+    public int majorityElement(int[] nums) {
+        int a = nums[0];
+        int count = 0;
+        for(int i : nums){
+            if(i == a || count == 0){ 
+                count++;
+                a = i;
+            }else{
+                count--;
+            }
+        }
+        return a;
+    }
+}
