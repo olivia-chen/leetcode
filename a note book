@@ -1,0 +1,5 @@
+O(1) space means that the memory required by the algorithm is constant, i.e. does not depend on the size of the input.
+O(n) space means that the memory required by the algorithm has (in the worst case) the same order of magnitude as the size of the input.
+//Adding two examples:
+Bubblesort requires O(1) space.
+Mergesort requires O(n) space.
