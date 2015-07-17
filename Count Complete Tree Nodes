@@ -18,11 +18,9 @@ public class Solution {
             int h2 = leftH(root.right);
             if(h1 == h2){
                 root = root.right;
-                k += 1 << h1;   //    TIME LIMITED EXCEED IF WRITE Math.pow(2, h1)!!!!!!!!!!
             }else{
-                root = root.left;
-                k += 1 << h2;
             }
+            k += 1 << h2;   //    TIME LIMITED EXCEED IF WRITE Math.pow(2, h1)!!!!!!!!!!
             h1--;
         }
         return k;
