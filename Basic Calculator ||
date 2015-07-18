@@ -1,0 +1,50 @@
+public class Solution {
+    public int calculate(String s) {
+       Queue<Character> q = new LinkedList<Character>();
+      Stack<Character> o = new Stack<Character>();
+      String temp = "0";
+      int a = 0;
+      int b = 0;
+      int r = 0;
+      s = s + '+';
+      for(int i = 0; i < s.length(); i++){
+         char x = s.charAt(i);
+         if(Character.isDigit(x)){
+            temp += x;
+         }
+         else{
+             if(x != ' '){
+                b = a;
+                a = Integer.parseInt(temp);
+                temp = "0";
+                if(!o.empty()){
+                    if(o.peek() == '*'){
+                      a = b * a;   
+                    }else if(o.peek() == '/'){
+                      a = (int) (b / a); 
+                    }
+                    o.pop();
+                }
+                if(q.size() ==0)      /////////////////////key point
+                   r = a; 
+                if(x == '*' || x == '/'){
+                   o.push(x);
+                }
+                if(x == '+' || x == '-'){
+                   if(q.size() >0){
+                      if(q.peek() == '+'){
+                         r += a;
+                      }
+                      else{
+                         r -= a;
+                      }
+                      q.remove();
+                   }
+                   q.add(x);
+                }
+            }
+         }
+      } 
+      return r;
+   }
+}
