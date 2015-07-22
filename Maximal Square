@@ -1,3 +1,4 @@
+// check the biggest square of each item
 public class Solution {
     public int maximalSquare(char[][] matrix) {
        int rl = matrix.length;
