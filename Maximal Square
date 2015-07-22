@@ -32,12 +32,9 @@ public class Solution {
                }
                if(x > result){
                      result = x;
-                     if(result >= Math.min(cl,rl))
-                        return Math.min(cl,rl) * Math.min(cl,rl);
                } 
                 stop = false;  // here is the piont
             }
-               
          }
       }
       
