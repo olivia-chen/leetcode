@@ -1,44 +1,46 @@
-// check the biggest square of each item
+//the algorithm is to find the biggest square of each item in the matrix[][]. 
+//Store the square value if bigger than the last one,  otherwise go to check the next item.
 public class Solution {
     public int maximalSquare(char[][] matrix) {
-       int rl = matrix.length;
+      int rl = matrix.length;
       if(rl == 0){
          return 0;
       }
       int cl = matrix[0].length;
       int result = 0;
-      boolean stop = false;
+      boolean stop = false;  // change to "true" as soon as encounter the '0'
       for(int i = 0; i < rl; i++){
          for(int j = 0; j < cl; j++){
             if(matrix[i][j] == '1'){
                int x = 1;
                while(j + x < cl && i + x < rl && stop == false){
                   int k = 0;
-                  while(k <= x && i + k < rl && stop == false){
-                     if(matrix[i+k][j+x] == '0'){//check column j+x
+                  while(k <= x && i + k < rl && stop == false){  
+//check column j+x; make sure the item's position is enough to has a square with"i+k<rl", 
+//don't have to check any more if not. 
+                     if(matrix[i+k][j+x] == '0'){ 
                         stop = true;
                      }
                      k++;
                   }
                   k = 0;
-                  while(k < x && stop == false && i+x < rl){
-                     if(matrix[i+x][j+k] == '0'){//check row i+x
+                  while(k < x && stop == false && i+x < rl){ //check row i+x
+                     if(matrix[i+x][j+k] == '0'){  
                         stop = true;
                      }
                      k++;
                   }
-                  if(stop == false){
-                    x++;
-                  }
+                  if(stop == false){ 
+                    x++;  // extend only when it's a square with all "1"
+                 }
                }
                if(x > result){
                      result = x;
                } 
-                stop = false;  // here is the piont
+                stop = false;// change to false before check next item.
             }
          }
       }
-      
       return result*result;
     }
 }
