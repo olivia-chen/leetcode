@@ -35,7 +35,7 @@ public class Solution {
                      if(result >= Math.min(cl,rl))
                         return Math.min(cl,rl) * Math.min(cl,rl);
                } 
-                stop = false;
+                stop = false;  // here is the piont
             }
                
          }
