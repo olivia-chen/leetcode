@@ -1,0 +1,46 @@
+public class Solution {
+    public int maximalSquare(char[][] matrix) {
+       int rl = matrix.length;
+      if(rl == 0){
+         return 0;
+      }
+      int cl = matrix[0].length;
+      int result = 0;
+      boolean stop = false;
+      for(int i = 0; i < rl; i++){
+         for(int j = 0; j < cl; j++){
+            if(matrix[i][j] == '1'){
+               int x = 1;
+               while(j + x < cl && i + x < rl && stop == false){
+                  int k = 0;
+                  while(k <= x && i + k < rl && stop == false){
+                     if(matrix[i+k][j+x] == '0'){//check column j+x
+                        stop = true;
+                     }
+                     k++;
+                  }
+                  k = 0;
+                  while(k < x && stop == false && i+x < rl){
+                     if(matrix[i+x][j+k] == '0'){//check row i+x
+                        stop = true;
+                     }
+                     k++;
+                  }
+                  if(stop == false){
+                    x++;
+                  }
+               }
+               if(x > result){
+                     result = x;
+                     if(result >= Math.min(cl,rl))
+                        return Math.min(cl,rl) * Math.min(cl,rl);
+               } 
+                stop = false;
+            }
+               
+         }
+      }
+      
+      return result*result;
+    }
+}
