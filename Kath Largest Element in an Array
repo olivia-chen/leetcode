@@ -1,4 +1,4 @@
-//bubble way
+//bubble sort way
 public class Solution {
     public int findKthLargest(int[] nums, int k) {
         int j = k;
@@ -13,5 +13,22 @@ public class Solution {
             j--;
         }
         return nums[k-1];
+    }
+}
+
+
+// priorityQueue
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> pQ = new PriorityQueue<Integer>();
+        for(int i = 0; i < nums.length; i++){
+            pQ.offer(nums[i]);
+        }
+        int j = nums.length - k;
+        while(j > 0){
+            pQ.poll();
+            j--;
+        }
+        return pQ.peek();
     }
 }
