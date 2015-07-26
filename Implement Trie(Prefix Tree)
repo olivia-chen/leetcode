@@ -1,0 +1,90 @@
+class TrieNode {
+    // Initialize your data structure here.
+    TrieNode[] children;  //each node include 26 child node, store in the array
+    char c;              //The character this node represents
+    boolean isWord;     //Does this node represent the last character of a word
+    
+    public TrieNode() {
+        children = new TrieNode[26];
+        isWord = false;
+    }
+    public TrieNode(char c){
+        this();
+        this.c = c;
+    }
+}
+
+public class Trie {
+    private TrieNode root;
+    
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    // Inserts a word into the trie.
+    public void insert(String word) {
+        TrieNode curr = root;
+        if(word.length() == 0){
+            curr.isWord = true;
+        }
+         for(int i = 0; i < word.length(); i++){
+            char eachChar = word.charAt(i);
+            int pos = (int)(eachChar - 'a');
+            if(curr.children[pos] == null){
+                curr.children[pos] = new TrieNode(eachChar); 
+                curr = curr.children[pos];
+            }else{
+                curr = curr.children[pos];
+            }
+            if(i == word.length() -1){
+                curr.isWord = true;
+            }
+        }
+    }
+
+    // Returns if the word is in the trie.
+    public boolean search(String word) {
+        TrieNode curr = root;
+        while(curr != null){
+            for(int i = 0; i < word.length(); i++){
+                char eachChar = word.charAt(i);
+                int pos = (int)(eachChar - 'a');
+                if(curr.children[pos] == null){
+                    return false;
+                }else{
+                    curr = curr.children[pos];
+                }
+            }
+            if(curr.isWord == true){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    // Returns if there is any word in the trie
+    // that starts with the given prefix.
+    public boolean startsWith(String prefix) {
+        TrieNode curr = root;
+        while(curr != null){
+            for(int i = 0; i < prefix.length(); i++){
+                char eachChar = prefix.charAt(i);
+                int pos = (int)(eachChar - 'a');
+                if(curr.children[pos] == null){
+                    return false;
+                }else{
+                    curr = curr.children[pos];
+                }
+            }
+          return true;  
+        }
+        return true;
+    }
+}
+
+// Your Trie object will be instantiated and called as such:
+// Trie trie = new Trie();
+// trie.insert("somestring");
+// trie.search("key");
