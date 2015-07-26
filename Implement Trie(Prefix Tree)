@@ -45,7 +45,7 @@ public class Trie {
     // Returns if the word is in the trie.
     public boolean search(String word) {
         TrieNode curr = root;
-        while(curr != null){
+        if(curr != null){
             for(int i = 0; i < word.length(); i++){
                 char eachChar = word.charAt(i);
                 int pos = (int)(eachChar - 'a');
@@ -68,10 +68,10 @@ public class Trie {
     // that starts with the given prefix.
     public boolean startsWith(String prefix) {
         TrieNode curr = root;
-        while(curr != null){
+        if(curr != null){
             for(int i = 0; i < prefix.length(); i++){
                 char eachChar = prefix.charAt(i);
-                int pos = (int)(eachChar - 'a');
+                int pos = (int)(eachChar - 'a');   /////////////////  if no(int), get wrong result
                 if(curr.children[pos] == null){
                     return false;
                 }else{
