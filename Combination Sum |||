@@ -11,10 +11,38 @@ public class Solution {
         }
         for(int i=start;i<=9;i++){
             if(n-i>=0){
-                List<Integer> nPath= new ArrayList<>(path);
+                List<Integer> nPath= new ArrayList<>(path); // copy path, nPath = copy
                 nPath.add(i);
                 dfs(k-1, n-i, i+1, nPath,result);  // next one start from i+1
             }
         }
+    }
+}
+
+
+// my own
+public class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        ArrayList<List<Integer>> list = new ArrayList<List<Integer>>();
+      ArrayList<Integer> temp = new ArrayList<Integer>();
+      combinationSum3(list, temp, k, n, 1);
+      return list;
+    }
+
+    private  void combinationSum3(ArrayList<List<Integer>> list, ArrayList<Integer> temp, int k, int n ,int a){
+        if(k == 0 && n == 0){
+         ArrayList<Integer> tempnew =new ArrayList<Integer>(temp);
+         list.add(tempnew);
+         //list.add(new ArrayList<Integer>(temp));
+      }
+      else{
+         for(int i = a; i <= 9; i++){
+            if(n-i >= 0){
+               temp.add(i);
+               combinationSum3(list, temp, k-1, n-i, i+1);
+               temp.remove(temp.size()-1);
+            }
+         }
+      }
     }
 }
