@@ -1,0 +1,91 @@
+public class WordDictionary {
+    private TrieNode root;
+    public WordDictionary(){
+       root = new TrieNode(); 
+    }
+    /*public boolean isEnd(){
+        for(int i = 0; i < 26; i++){
+            if(root.children[i] != null){
+                return false;
+            }
+        }
+        return true;
+    }*/
+    // Adds a word into the data structure.
+    public void addWord(String word) {
+        TrieNode curr = root;
+        if(word.length() == 0){
+            curr.isWord = true;
+        }
+         for(int i = 0; i < word.length(); i++){
+            char eachChar = word.charAt(i);
+            int pos = (int)(eachChar - 'a');
+            if(curr.children[pos] == null){
+                curr.children[pos] = new TrieNode(eachChar); 
+                curr = curr.children[pos];
+            }else{
+                curr = curr.children[pos];
+            }
+            if(i == word.length() -1){
+                curr.isWord = true;
+            }
+        }
+    }
+
+    // Returns if the word is in the data structure. A word could
+    // contain the dot character '.' to represent any one letter.
+    public boolean search(String word){
+        return search(root, word);
+    }
+    private boolean search(TrieNode root, String word){
+        if(word.length() > 0){
+            char eachChar = word.charAt(0);
+            if(!Character.isLetter(eachChar)){
+                int k = 0;
+                while(k < 26){
+                    if(root.children[k] != null){
+                        if(search(root.children[k], word.substring(1))){
+                            return true;
+                        }
+                    }
+                    k++;
+                }
+                return false;
+            }else{
+                int pos = (int)(eachChar - 'a');
+                if(root.children[pos] == null){
+                    return false;
+                }else{
+                   return search(root.children[pos], word.substring(1));
+                }
+            }
+        }
+        if(root.isWord == true){
+            return true;
+        }else{
+            return false;
+        }
+    }
+}
+
+// Your WordDictionary object will be instantiated and called as such:
+// WordDictionary wordDictionary = new WordDictionary();
+// wordDictionary.addWord("word");
+// wordDictionary.search("pattern");
+class TrieNode {
+    // Initialize your data structure here.
+    //private TrieNode root;
+    TrieNode[] children;  //each node include 26 child node, store in the array
+    char c;              //The character this node represents
+    boolean isWord;     //Does this node represent the last character of a word
+    
+    public TrieNode() {
+        children = new TrieNode[26];
+        isWord = false;
+    }
+    public TrieNode(char c){
+        this();
+        this.c = c;
+    }
+}
+
