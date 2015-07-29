@@ -1,0 +1,18 @@
+public class Solution {
+    public int reverse(int x) {
+        long temp = Math.abs(x);
+        long k = 0;
+        while(temp > 0){
+            k = k * 10 + temp % 10;
+            temp = (int)(temp / 10);
+            if(k > Integer.MAX_VALUE || k < Integer.MIN_VALUE){
+                return 0;
+            }
+        }
+        if(x >= 0){
+            return (int)k;
+        }else{
+            return (int)(-k); 
+        }
+    }
+}
