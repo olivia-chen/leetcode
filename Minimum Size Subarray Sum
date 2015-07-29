@@ -1,0 +1,49 @@
+public class Solution {
+    public int minSubArrayLen(int s, int[] nums) {
+        int n = 0;
+        int sum = 0;
+        int first = 0;
+        int next = 0;
+        int result = nums.length;
+        int k = 0;
+        int i = 0;
+        if (nums.length == 0 || s == 0){
+            return 0;
+        }
+        while(i < nums.length){
+            if(sum < s){
+                next = nums[i];
+                if(next >= s){
+                    return 1;
+                }
+                sum = sum + next;
+                n++;
+                i++;
+            }
+            else{
+                if(n <= result){
+                    result = n;
+                }
+                first = nums[k];
+                sum = sum - first;
+                n--;
+                k++;
+            }
+        }
+        if(result == nums.length && sum < s){
+            return 0;
+        }
+        if(i == nums.length){
+            while(sum >= s){
+                if(n <= result){
+                    result = n;
+                }
+                first = nums[k];
+                sum = sum - first;
+                k++;
+                n--;
+            }
+        }
+        return result;
+    }
+}
