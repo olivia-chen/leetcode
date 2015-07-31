@@ -1,0 +1,32 @@
+public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>();
+        boolean[] isExplored = new boolean[numCourses];
+        for(int i = 0; i < numCourses; i++){
+            adj.add(i, new ArrayList<Integer>());
+        }
+        for(int i = 0; i < prerequisites.length; i++){
+            adj.get(prerequisites[i][0]).add(prerequisites[i][1]);
+        }
+        for(int i = 0; i < numCourses; i++){
+            if(!DFS(i, isExplored, adj)){
+               return false; 
+            }
+        }
+        return true;
+    }
+    private boolean DFS(int s, boolean[] isExplored, ArrayList<ArrayList<Integer>> adj){
+        if(isExplored[s]){
+            return false;
+        }else{
+            isExplored[s] = true;
+        }
+        for(int v : adj.get(s)){
+            if(!DFS(v, isExplored, adj)){
+                return false;
+            }
+        }
+        isExplored[s] = false; /////////////////////// change to false, for next loop
+        return true;
+    }
+}
