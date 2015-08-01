@@ -31,3 +31,71 @@ public class Solution {
         return true;
     }
 }
+
+//DFS Optimized
+public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>();
+        boolean[] isExplored = new boolean[numCourses];
+        for(int i = 0; i < numCourses; i++){
+            adj.add(i, new ArrayList<Integer>());
+        }
+        for(int i = 0; i < prerequisites.length; i++){
+            adj.get(prerequisites[i][0]).add(prerequisites[i][1]);
+        }
+        for(int i = 0; i < numCourses; i++){
+            if(!DFS(i, isExplored, adj)){
+               return false; 
+            }
+        }
+        return true;
+    }
+    private boolean DFS(int s, boolean[] isExplored, ArrayList<ArrayList<Integer>> adj){
+        isExplored[s] = true;
+        for(int v : adj.get(s)){
+            if(isExplored[v]){
+                return false;
+            }else{
+                if(!DFS(v, isExplored, adj)){
+                    return false;
+                }
+            }
+        }
+        isExplored[s] = false;
+        return true;
+    }
+}
+
+//BFS way
+public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>();
+        int[] incoming = new int[numCourses];
+        int count = 0;
+        Queue<Integer> frontier = new LinkedList<Integer>();
+        for(int i = 0; i < numCourses; i++){
+            adj.add(i, new ArrayList<Integer>());
+        }
+        for(int i = 0; i < prerequisites.length; i++){
+            adj.get(prerequisites[i][0]).add(prerequisites[i][1]);
+            incoming[prerequisites[i][1]]++;
+        }
+        for(int i = 0; i < incoming.length; i++){
+            if(incoming[i] == 0){
+                count++;
+                frontier.add(i);
+            }
+        }
+        while(!frontier.isEmpty()){
+            int u = frontier.poll();
+            for(int v : adj.get(u)){
+                incoming[v]--;
+                if(incoming[v] == 0){
+                    frontier.add(v);
+                    count++;
+                }    
+            }
+        }
+        return count == numCourses;
+    }
+}
