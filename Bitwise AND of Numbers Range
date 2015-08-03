@@ -16,3 +16,21 @@ public class Solution {
         return 0;
     }
 }
+
+// optimized: no need to use 2*m (since exceed the max value, instead of n - m <= m)
+public class Solution {
+    public int rangeBitwiseAnd(int m, int n) {
+        if(m == n){
+            return m;
+        }
+        if(n - m <= m){
+           int result = m;
+           while(m < n){
+               m++;
+               result = result & m;
+           }
+           return result; 
+        }
+        return 0;
+    }
+}
