@@ -1,0 +1,52 @@
+public class Solution {
+    public int numIslands(char[][] grid) {
+        int rl = grid.length;
+        if(rl == 0){
+            return 0;
+        }
+        int result = 0;
+        int cl = grid[0].length;
+        Queue<int[]> land = new LinkedList<int[]>();
+        boolean[][] isLand = new boolean[rl][cl];
+        if(rl > 0){
+            for(int i = 0; i < rl; i++){
+                for(int j = 0; j < cl; j++){
+                    if(!isLand[i][j] && grid[i][j] == '1'){
+                        int[] co = new int[2];
+                        co[0] = i;
+                        co[1] = j;
+                        land.add(co);
+                        isLand[i][j] = true;
+                        while(!land.isEmpty()){
+                            int[] coo = land.poll();
+                            if(coo[0]-1 >= 0){
+                                helper(grid, land, coo[0]-1, coo[1], isLand);
+                                //isLand[coo[0]-1][coo[1]] = true;
+                            }
+                            if(coo[0]+1 < rl){
+                                helper(grid, land, coo[0]+1, coo[1], isLand);
+                            }
+                            if(coo[1]-1 >= 0){
+                                helper(grid, land, coo[0], coo[1]-1, isLand);
+                            }
+                            if(coo[1]+1 < cl){
+                                helper(grid, land, coo[0], coo[1]+1, isLand);
+                            }
+                        }
+                    result++;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    private void helper(char[][] grid, Queue<int[]> land, int i, int j, boolean[][] isLand){
+        if(grid[i][j] == '1' && !isLand[i][j]){
+            int[] temp = new int[2];
+            temp[0] = i;
+            temp[1] = j;
+            land.add(temp);
+            isLand[i][j] = true;
+        }
+    }
+}
