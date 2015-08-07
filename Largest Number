@@ -1,0 +1,54 @@
+public class Solution {
+    public String largestNumber(int[] nums) {
+        StringBuilder result = new StringBuilder();
+        int k = 0;
+        while(k < nums.length){
+            String lar = intToString(nums[k]);
+            for(int i = k+1; i < nums.length; i++){
+                String s = intToString(nums[i]);
+                if(compare(s, lar)){ // s is bigger
+                    int temp = nums[k];
+                    nums[k] = nums[i];  // swap nums k and nums i
+                    nums[i] = temp;
+                    lar = intToString(nums[k]);
+                }
+            }
+            if(nums[0] == 0){
+                return "0";
+            }
+            result.append(lar);
+            k++;
+        }
+        return result.toString();
+    }
+    private String intToString(int temp){
+        StringBuilder s = new StringBuilder();
+        if(temp == 0){
+            s.append(temp);
+        }
+        while(temp > 0){
+            s.insert(0, (int)(temp % 10));
+            temp = (int)(temp / 10);
+        }
+        return s.toString();
+    }
+    private boolean compare(String s, String lar){
+        for(int i = 0; i < Math.min(s.length(), lar.length()); i++){
+           if(Character.getNumericValue(lar.charAt(i)) < Character.getNumericValue(s.charAt(i))){ // s is bigger, true
+                return true;  
+            }
+            if(Character.getNumericValue(lar.charAt(i)) > Character.getNumericValue(s.charAt(i))){
+                return false;
+            }
+        }
+        if(s.length() < lar.length()){
+            lar = lar.substring(s.length());
+            return compare(s, lar);
+        }
+        if(s.length() > lar.length()){
+            s = s.substring(lar.length());
+            return compare(s, lar);
+        }
+        return false;
+    }
+}
