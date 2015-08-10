@@ -1,0 +1,68 @@
+public class Solution {
+    public int maxProduct(int[] nums) {
+        if(nums.length == 1){
+            return nums[0];
+        }
+        int countNag = 0;
+        int firstNag = 0;
+        int result = -1;
+        int pro = 1;
+        int firstPro = 1;
+        int allPro = 1;
+        int count = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] != 0){
+                if(nums[i] < 0){
+                    countNag++;
+                    if(countNag == 1){
+                        firstNag = nums[i];
+                    }
+                }
+                allPro = nums[i] * allPro;
+                count++;
+                if(countNag == 0){
+                    firstPro = allPro;
+                }
+                if(countNag % 2 == 0){
+                    pro = allPro;
+                }
+                if(i == nums.length - 1){
+                    if(allPro <= 0){
+                       if(count > 1){
+                            int temp = allPro / firstNag / firstPro;
+                            allPro = Math.max(temp, pro);
+                            result = Math.max(result, allPro);
+                        }else{
+                            result = Math.max(0, result);
+                        }
+                    }else{
+                        result = Math.max(allPro, result);
+                    } 
+                }
+            }else {
+                if(i == 0){
+                    result = 0;
+                }else{
+                    if(allPro <= 0){
+                        if(count > 1){
+                            int temp = allPro / firstNag / firstPro;
+                            allPro = Math.max(temp, pro);
+                            result = Math.max(result, allPro);
+                        }else{
+                            result = Math.max(0, result);
+                        }
+                    }else{
+                            result = Math.max(allPro, result);
+                    }
+                }
+                countNag = 0;
+                firstNag = 0;
+                allPro = 1;
+                pro = 1;
+                firstPro = 1;
+                count = 0;
+            }
+        }
+        return result;
+    }
+}
