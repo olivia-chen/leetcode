@@ -1,0 +1,46 @@
+public class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> s = new Stack<Integer>();
+        for(int i = 0; i < tokens.length; i++){
+            if(!Character.isDigit(tokens[i].charAt(tokens[i].length() - 1))){
+                for(int j = 0; j < tokens[i].length(); j++){
+                    char c = tokens[i].charAt(j);
+                    if(Character.isDigit(c)){
+                        s.push(Character.getNumericValue(c));
+                    }else{
+                        int temp1 = s.pop();
+                        int temp2 = s.pop();
+                        if(c == '+'){
+                            s.push(temp2 + temp1);
+                        }
+                        if(c == '-'){
+                            s.push(temp2 - temp1);
+                        }
+                        if(c == '*'){
+                            s.push(temp2 * temp1);
+                        }
+                        if(c == '/'){
+                            s.push(temp2 / temp1);
+                        }
+                    }
+                }
+            }else{
+                int temp = 0;
+                if(tokens[i].charAt(0) == '-'){
+                    for(int j = 1; j < tokens[i].length(); j++){
+                        char c = tokens[i].charAt(j);
+                        temp = temp * 10 + Character.getNumericValue(c);
+                    }
+                    temp = temp * (-1);
+                }else{
+                   for(int j = 0; j < tokens[i].length(); j++){
+                        char c = tokens[i].charAt(j);
+                        temp = temp * 10 + Character.getNumericValue(c);
+                    } 
+                }
+                s.push(temp);
+            }
+        }
+        return s.pop();
+    }
+}
