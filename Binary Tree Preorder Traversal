@@ -1,0 +1,59 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        if(root != null){
+            while(root != null){
+                s.push(root);
+                list.add(root.val);
+                root = root.left;
+            }
+            while(!s.empty()){
+                TreeNode temp = s.pop();
+                if(temp.right != null){
+                    temp = temp.right;
+                    while(temp != null){
+                        s.push(temp);
+                        list.add(temp.val);
+                        temp = temp.left;
+                    }
+                }
+            }
+        }
+        return list;
+    }
+}
+
+// recursive way
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        preorder(root, list);
+        return list;
+    }
+    private void preorder(TreeNode root, ArrayList<Integer> list){
+        if(root != null){
+            list.add(root.val);
+            preorder(root.left, list);
+            preorder(root.right, list);
+        }
+    }
+}
