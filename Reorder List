@@ -1,0 +1,66 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public void reorderList(ListNode head) {
+        if(head != null && head.next != null && head.next.next != null){
+            ListNode slow = head;
+            ListNode fast = head;
+            while(fast != null && fast.next != null){
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            ListNode currL = head;
+            while(slow.next != null){
+                fast = slow;
+                while(fast != null && fast.next != null && fast.next.next != null && fast.next.next.next != null){
+                    fast = fast.next.next;
+                }
+                if(fast.next.next != null){
+                    fast = fast.next;
+                }
+                ListNode move = fast.next;
+                move.next = currL.next;
+                currL.next = move;
+                currL = move.next;
+                fast.next = null;
+            }
+        }
+    }
+}
+
+／／optimizied: find middle, reverse the last half, insert to front part
+public class Solution {
+    public void reorderList(ListNode head) {
+        if(head != null && head.next != null && head.next.next != null){
+            ListNode slow = head;
+            ListNode fast = head;
+            while(fast != null && fast.next != null){
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            ListNode curr = slow.next;
+            slow.next = null;
+            ListNode rev = null;
+            while(curr != null){  //reverse
+                ListNode dum = curr.next;
+                curr.next = rev;
+                rev = curr;
+                curr = dum;
+            }
+            ListNode currL = head;
+            while(rev != null){ // insert
+                ListNode move = rev.next;
+                rev.next = currL.next;
+                currL.next = rev;
+                currL = rev.next;
+                rev = move;
+            }
+        }
+    }
+}
