@@ -1,0 +1,17 @@
+public class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
+        Arrays.sort(nums);
+        result.add(new ArrayList<Integer>());
+        for(int i = 0; i < nums.length; i++){
+            ArrayList<List<Integer>> r = new ArrayList<List<Integer>>(); // to avoid the concurrenctModificationError
+            for(List<Integer> set : result){
+                ArrayList<Integer> temp = new ArrayList<Integer>(set);
+                temp.add(nums[i]);
+                r.add(temp);
+            }
+            result.addAll(r);
+        }
+        return result;
+    }
+}
