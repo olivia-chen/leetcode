@@ -1,0 +1,42 @@
+/*Given a string s, partition s such that every substring of the partition is a palindrome.
+
+Return all possible palindrome partitioning of s.
+
+For example, given s = "aab",
+Return
+
+  [
+    ["aa","b"],
+    ["a","a","b"]
+  ]*/
+public class Solution {
+    public List<List<String>> partition(String s) {
+        List<String> part = new ArrayList<String>();        
+        List<List<String>> list = new ArrayList<List<String>>();
+        partition(s, list, part);
+        return list;
+    }
+    private void partition(String s, List<List<String>> list, List<String> part){
+        if(s.length() == 0){
+            list.add(new ArrayList<String>(part));
+            //return;
+            //part = new ArrayList<String>();
+        }
+        for(int i = 0; i < s.length(); i++){
+            if(isPalindrome(s.substring(0, i+1))){
+               part.add(s.substring(0, i+1));
+               partition(s.substring(i+1), list, part);
+               part.remove(part.size()-1);
+            }
+        }
+        
+    }
+    private boolean isPalindrome(String s){
+        for(int i = 0; i < s.length()/2; i++){
+            if(s.charAt(i) != s.charAt(s.length() -1 -i)){
+                return false;
+            }
+        }
+        return true;
+    }
+}
