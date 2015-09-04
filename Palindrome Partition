@@ -26,7 +26,7 @@ public class Solution {
             if(isPalindrome(s.substring(0, i+1))){
                part.add(s.substring(0, i+1));
                partition(s.substring(i+1), list, part);
-               part.remove(part.size()-1);
+               part.remove(part.size()-1); // remove the last one in part list, backtracking
             }
         }
         
