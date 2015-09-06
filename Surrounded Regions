@@ -75,3 +75,77 @@ public class Solution {
         }
     }
 }
+
+// optimized : fist put all the 'O' on the edge into the q, then BFS the q
+public class Solution {
+    public void solve(char[][] grid) {
+        int rl = grid.length;
+        if(rl == 0){
+            return ;
+        }
+        int cl = grid[0].length;
+        Queue<int[]> land = new LinkedList<int[]>();
+        boolean[][] isLand = new boolean[rl][cl];
+        if(rl > 0){
+            int i = 0;
+            int j = 0;
+            while(j < cl){
+                //findSafe(i, j, cl, rl, grid, isLand,  land);
+                helper(grid, land, i, j, isLand);
+                j++;
+            }//the first row
+            i = 0;
+            j = 0;
+            while(i < rl){
+                //findSafe(i, j, rl, cl, grid, isLand, land);
+                helper(grid, land, i, j, isLand);
+                i++;
+            }
+            i = rl-1;
+            j = 0;
+            while(j < cl){
+                //findSafe(i, j, rl, cl, grid, isLand, land);
+                helper(grid, land, i, j, isLand);
+                j++;
+            }
+            i = 0;
+            j = cl-1;
+            while(i < rl){
+                //findSafe(i, j, rl, cl, grid, isLand, land);
+                helper(grid, land, i, j, isLand);
+                i++;
+            }
+            while(!land.isEmpty()){
+                    int[] coo = land.poll();
+                    if(coo[0]-1 >= 0){
+                        helper(grid, land, coo[0]-1, coo[1], isLand);
+                    }
+                    if(coo[0]+1 < rl){
+                        helper(grid, land, coo[0]+1, coo[1], isLand);
+                    }
+                    if(coo[1]-1 >= 0){
+                        helper(grid, land, coo[0], coo[1]-1, isLand);
+                    }
+                    if(coo[1]+1 < cl){
+                        helper(grid, land, coo[0], coo[1]+1, isLand);
+                    }
+                }
+        }
+        for(int i = 1; i < rl-1; i++){
+                for(int j = 1; j < cl-1; j++){
+                    if(!isLand[i][j]){
+                        grid[i][j] = 'X';
+                    }
+                }
+        }
+    }
+    private void helper(char[][] grid, Queue<int[]> land, int i, int j, boolean[][] isLand){
+        if(grid[i][j] == 'O' && !isLand[i][j]){
+            int[] temp = new int[2];
+            temp[0] = i;
+            temp[1] = j;
+            land.add(temp);
+            isLand[i][j] = true;
+        }
+    }
+}
