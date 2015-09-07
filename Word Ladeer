@@ -1,0 +1,55 @@
+public class Solution {
+    public int ladderLength(String beginWord, String endWord, Set<String> wordDict) {
+        Queue<String> word = new LinkedList<String>();
+        Set<String> chosen = new HashSet<String>();
+        word.add(beginWord);
+        int res = 0;
+        while(!word.isEmpty()){
+            //String s = word.poll();
+            res++;
+            Queue<String> q = new LinkedList<String>();
+            for(String each : word){
+            //while(!word.isEmpty()){
+                //String each = word.poll();
+                for (int i = 0; i < each.length(); i++) {   // HERE IS THE KEY POINT: HOW TO CHANGE ONLY ONE LETTER OF A WORD STRING
+                    char[] chars = each.toCharArray();
+                    for (char ch = 'a'; ch <= 'z'; ch++) {
+                        chars[i] = ch;
+                        String w = new String(chars);
+                        if(wordDict.contains(w) && !chosen.contains(w)) {
+                /*for(String dic: wordDict){
+                    if(!chosen.contains(dic)){// && isOnlyOneLetterDiff(s, dic)){
+                        if(isOnlyOneLetterDiff(s, dic)){
+                            if(isOnlyOneLetterDiff(dic, endWord)){
+                                return res;
+                            }*/
+                            if(w.equals(endWord)){
+                                return res+1;
+                            }
+                            q.add(w);
+                            chosen.add(w);
+                        }
+                    }
+                }
+            }
+            word = new LinkedList<String>(q);
+        }
+        return 0;
+    }
+}
+    /*private boolean isOnlyOneLetterDiff(String s, String dic){
+        int count = 0;
+        for(int i = 0 ; i < s.length(); i++){
+            if(dic.charAt(i) != s.charAt(i)){
+                count++;
+            }
+            if(count > 1){
+                return false;
+            }
+        }
+        if(count == 1){
+            return true;
+        }
+        return false;
+    }
+}*/
