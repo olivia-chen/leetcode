@@ -1,0 +1,85 @@
+/*Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+
+Initially, all next pointers are set to NULL.
+
+Note:
+
+You may only use constant extra space.
+You may assume that it is a perfect binary tree (ie, all leaves are at the same level, and every parent has two children).
+*/
+/**
+ * Definition for binary tree with next pointer.
+ * public class TreeLinkNode {
+ *     int val;
+ *     TreeLinkNode left, right, next;
+ *     TreeLinkNode(int x) { val = x; }
+ * }
+ */
+//BFS, but not constant extra place O(1)
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        Queue<TreeLinkNode> q = new LinkedList<TreeLinkNode>();
+        if(root != null){
+        q.add(root);
+        while(!q.isEmpty()){
+            Queue<TreeLinkNode> qq = new LinkedList<TreeLinkNode>();
+            while(!q.isEmpty()){
+                TreeLinkNode temp = q.poll();
+                temp.next = q.peek();
+                if(temp.left != null){
+                    qq.add(temp.left);
+                }
+                if(temp.right != null){
+                    qq.add(temp.right);
+                }
+            }
+            q = new LinkedList<TreeLinkNode>(qq);
+        }
+    }
+    }
+}
+// O(1) space, DFS-------f you don't want a solution for O(1) space but just a hint, 
+//here it is: you need to make use of the next links that you're creating.
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        if(root != null){
+            if(root.left == null){
+                root.next = null;
+            }else{
+                root.left.next = root.right;
+                root.right.next = null;
+                helper(root.left);
+                helper(root.right);
+            }
+        }
+    }
+    private void helper(TreeLinkNode root){
+        if(root.left != null){
+            root.left.next = root.right;
+            if(root.next != null){
+                root.right.next = root.next.left;
+            }else{
+                root.right.next = null;
+            }
+            helper(root.left);
+            helper(root.right);
+        }
+    }
+}
+// opetimized: since at the beginning, next all is null
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        if(root != null){
+            if(root.left != null){
+                root.left.next = root.right;
+                if(root.next != null){
+                    root.right.next = root.next.left;
+                }else{
+                    root.right.next = null;
+                }
+                connect(root.left);
+                connect(root.right);
+            }
+        }
+    }
+}
