@@ -1,0 +1,34 @@
+public class Solution {
+    public int maxProfit(int[] prices) {
+      //asendant then desendant, sell summit
+      //desendant then asendant, buy lowest
+      int profit = 0;
+      int buy = Integer.MAX_VALUE;
+      int sell = Integer.MIN_VALUE;
+      int temp = 0;
+      boolean bought = false;
+      if(prices.length > 1){
+          for(int i = 0; i < prices.length-1; i++){
+              if(prices[i+1] > prices[i]){
+                 if(!bought){
+                     temp = buy;
+                     buy = Math.min(buy, prices[i]);
+                     bought = true;
+                 }
+              }
+              if(prices[i+1] < prices[i]){
+                  if(bought){
+                      sell = Math.max(sell, prices[i]);
+                      bought = false;
+                      profit = Math.max(profit, sell - buy);
+                      sell = Integer.MIN_VALUE;
+                  }
+              }
+          }
+          if(bought){
+              profit = Math.max(profit, prices[prices.length -1] - buy);
+          }
+      }
+      return profit;
+    }
+}
