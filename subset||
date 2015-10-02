@@ -1,0 +1,57 @@
+/*Given a collection of integers that might contain duplicates, nums, return all possible subsets.
+
+Note:
+Elements in a subset must be in non-descending order.
+The solution set must not contain duplicate subsets.*/
+public class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
+        Arrays.sort(nums);
+        result.add(new ArrayList<Integer>());
+        for(int i = 0; i < nums.length; i++){ // find the duplicate times
+            int dupCount = 0;
+            while( ((i+1) < nums.length) && nums[i+1] == nums[i]) {
+                dupCount++;
+                i++;
+            }
+            ArrayList<List<Integer>> r = new ArrayList<List<Integer>>(); // to avoid the concurrenctModificationError
+            for(List<Integer> set : result){
+                ArrayList<Integer> temp = new ArrayList<Integer>(set);
+                for (int t = 0; t <= dupCount; t++) {
+                temp.add(nums[i]);
+                r.add(new ArrayList<Integer>(temp));
+                }
+            }
+
+            result.addAll(r);
+        }
+        return result;
+    }
+}
+
+//Backtracking
+public class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
+        Arrays.sort(nums);
+        ArrayList<Integer> element = new ArrayList<Integer>();
+        helper(0, result, nums, element);
+        return result;
+    }
+    private void helper(int k, ArrayList<List<Integer>> result, int[] nums, ArrayList<Integer> element){
+        if(k <= nums.length){
+            result.add(element);
+        }
+        for(int i = k; i < nums.length; i++){
+            element.add(nums[i]);
+            helper(i+1, result, nums, new ArrayList<Integer>(element));
+            element.remove(element.size()-1);
+            while(i < nums.length-1 && nums[i] == nums[i+1]){
+                i++;
+            }
+        }
+    }
+}
+
+    
+    
