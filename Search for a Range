@@ -1,0 +1,54 @@
+public class Solution {//if mid equal to target, to the right part to find res[1]; to the left part to find res[0]
+    public int[] searchRange(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length-1;
+        int[] res = new int[2];
+        res[0] = -1;
+        res[1] = -1;
+        if(high == 0){
+            if(nums[0] == target){
+                res[0] = 0;
+                res[1] = 0;
+                return res;
+            }
+            res[0] = -1;
+            res[1] = -1;
+            return res;
+        }
+        if(nums[0] > target || nums[nums.length-1] < target){
+            res[0] = -1;
+            res[1] = -1;
+            return res;
+        }
+        while(high - low > 1){
+            int mid = low + (high-low)/2;
+            if(nums[mid] < target){//to right
+                low = mid ;
+            }else{//to left
+                high = mid ;
+            }
+        }
+        
+        if(nums[low] == target){
+            res[0] = low;
+        }else if(nums[high] == target){
+            res[0] = high;
+        }
+        int l = 0;
+        int h = nums.length-1;
+        while(h-l > 1){
+            int mid = l + (h-l)/2;
+            if(nums[mid] <= target){
+                l = mid ;
+            }else{
+                h = mid ;
+            }
+        }
+        if(nums[h] == target){
+            res[1] = h;
+        }else if(nums[l] == target){
+            res[1] = l;
+        }
+        return res;
+    }
+}
