@@ -1,0 +1,33 @@
+public class Solution {// dividend = 2n * divisor + a  ---> result = 2n + a/divisor 
+    public int divide(int dividend, int divisor) {
+        if(dividend==Integer.MIN_VALUE){
+            if(divisor==-1) return Integer.MAX_VALUE;
+            else if(divisor==1)  return dividend;
+            else return ((divisor&1)==1)?divide(dividend+1,divisor):divide(dividend>>1,divisor>>1);
+        } 
+    if(divisor==Integer.MIN_VALUE) return 0;
+    //if(divisor==1)  return dividend;
+        long a = Math.abs(divisor);
+        long b = Math.abs(dividend);
+        
+        if(b < a){
+            return 0;
+        }
+        int res = 0;
+        while(a <= b){
+            long a1 = a;
+            long b1 = b;
+            int c = 1;
+            while((a1 << 1) <= b1){
+                a1 <<= 1;
+                c <<= 1;
+            }
+            b = b - a1;
+            res += c;
+        }
+        if((dividend < 0) ^ (divisor < 0)){//(dividend < 0 && divisor > 0 || (dividend > 0 && divisor < 0) ){
+            return -res;
+        }
+        return res;
+    }
+}
