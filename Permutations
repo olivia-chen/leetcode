@@ -1,0 +1,25 @@
+public class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        boolean[] chosen = new boolean[nums.length];
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        LinkedList<List<Integer>> res = new LinkedList<List<Integer>>();
+        permute(nums, chosen, res, list, 0);
+        return res;
+    }
+    private void permute(int[] nums, boolean[] chosen, LinkedList<List<Integer>> res, LinkedList<Integer> list, int l) {
+        if(l == nums.length){
+            res.add(new LinkedList<Integer>(list));
+            l = 0;
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(!chosen[i]){
+                chosen[i] = true;
+                list.add(nums[i]);
+                permute(nums, chosen, res, list, l+1);
+                chosen[i] = false;
+                list.remove(l);
+            }
+        }
+        
+    }
+}
