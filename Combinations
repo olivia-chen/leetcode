@@ -1,23 +1,18 @@
 public class Solution {
     public List<List<Integer>> combine(int n, int k) {
-        boolean[] chosen = new boolean[n+1];
         LinkedList<Integer> list = new LinkedList<Integer>();
         LinkedList<List<Integer>> res = new LinkedList<List<Integer>>();
-        combine(1, n, k, chosen, res, list);
+        combine(1, n, k, res, list);
         return res;
     }
-    private void combine(int start, int n, int k, boolean[] chosen, LinkedList<List<Integer>> res, LinkedList<Integer> list) {
+    private void combine(int start, int n, int k, LinkedList<List<Integer>> res, LinkedList<Integer> list) {
         if(k == 0){
             res.add(new ArrayList<Integer>(list));
         }
         for(int i = start; i <= n; i++){
-            if(!chosen[i]){
-                chosen[i] = true;
-                list.add(i);
-                combine(i+1, n, k-1, chosen, res, list);
-                chosen[i] = false;
-                list.remove(list.size()-1);
-            }
+            list.add(i);
+            combine(i+1, n, k-1, res, list);
+            list.remove(list.size()-1);
         }
     }
 }
