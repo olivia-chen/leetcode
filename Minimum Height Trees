@@ -1,0 +1,35 @@
+public class Solution {//delete leavers layer by layer
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        List<Set<Integer>> adj = new ArrayList<Set<Integer>>();
+        List<Integer> leaves = new ArrayList<Integer>();
+        if(n == 1){
+            leaves.add(0);
+            return leaves;
+        }
+        for(int i = 0; i < n; i++){
+            adj.add(i, new HashSet<Integer>());
+        }
+        for(int i = 0; i < edges.length; i++){
+            adj.get(edges[i][0]).add(edges[i][1]);
+            adj.get(edges[i][1]).add(edges[i][0]);
+        }
+        for(int k = 0; k < n; k++){
+            if(adj.get(k).size() == 1){
+                leaves.add(k);
+            }
+        }
+        while(n > 2){
+            n -= leaves.size();
+            List<Integer> next = new ArrayList<Integer>();
+            for(int i : leaves){
+                int j = adj.get(i).iterator().next();  // for set to integer 
+                adj.get(j).remove(i);
+                if(adj.get(j).size() == 1){
+                    next.add(j);
+                }
+            }
+            leaves = next;//new LinkedList<Integer>(next);
+        }
+        return leaves;        
+    }
+}
