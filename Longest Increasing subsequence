@@ -1,0 +1,61 @@
+public class Solution { // find lis before i
+    public int lengthOfLIS(int[] nums) {
+        if(nums.length == 0){
+            return 0;
+        }
+        int res = 1;
+        int[] dp = new int[nums.length];
+        for(int i = 0; i < nums.length; i++){
+            dp[i] = 1;
+        }
+        for(int i = 1; i < nums.length; i++){
+            for(int j = 0; j < i; j++){  // from 0 to i, get dp[j]
+                if(nums[j] < nums[i]){
+                    dp[i] = Math.max(dp[i], dp[j] + 1); 
+                }
+            }
+            res = Math.max(res, dp[i]); 
+        }
+        return res;
+    }
+}
+//O(nlgn), find how many items less than i
+public class Solution {
+    public int lengthOfLIS(int[] nums) {
+        if(nums.length == 0){
+            return 0;
+        }
+        if(nums.length == 1){
+            return 1;
+        }
+        int[] lis = new int[nums.length+1];
+        lis[0] = Integer.MIN_VALUE;
+        for(int i = 1; i < lis.length; i++){
+            lis[i] = Integer.MAX_VALUE;
+        }
+        for(int i = 0; i < nums.length; i++){
+            int low = 0;
+            int high = lis.length-1;
+            while(low < high){
+                int mid = low + (high-low)/2;
+                if(lis[mid] > nums[i]){
+                    high = mid;
+                }else if(lis[mid] < nums[i]){
+                    low = mid+1;
+                }else{
+                    break;
+                }
+            }
+            if(low == high){
+                lis[low] = Math.min(lis[low], nums[i]);
+            }
+        }
+        int res = 0;
+        int j = 0;
+        while(j < lis.length && lis[j] != Integer.MAX_VALUE){
+            res++;
+            j++;
+        }
+        return res-1;
+    }
+}
