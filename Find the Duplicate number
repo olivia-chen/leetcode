@@ -1,0 +1,39 @@
+//two pointers solution
+public class Solution {     //consider the nums[i] as indices; 0 is out of the cycle, since the number is 1 to n inclusive; 
+    public int findDuplicate(int[] nums) { // use two pointers slow and fast to detect the cycle, slow move one step forward and fast
+        if(nums.length > 0){               // move two steps each time, they finally meet in the cycle
+            int slow = nums[0];            // then Start up another pointer from the outside cycle index of the array and march it forward
+            int fast = nums[nums[0]];      // until it hits the pointer inside the array.
+            while(slow != fast){           // If the two hit, the intersection index is the duplicate element.
+                slow = nums[slow];
+                fast = nums[nums[fast]];
+            }
+            fast = 0;
+            while(slow != fast){
+                slow = nums[slow];
+                fast = nums[fast];
+            }
+            return slow;
+        }
+        return -1;
+    }
+}
+
+// binary search solution----pigeonhole principle
+int low = 0;
+        int high = nums.length - 1;
+        while(low < high){
+            int mid = (low + high)/2;
+            int count = 0;
+            for(int i : nums){
+                if(i <= mid){
+                    count++;
+                }
+            }
+            if(count <= mid){
+                low = mid + 1;
+            }else{
+                high = mid;
+            }
+        }
+        return low;
