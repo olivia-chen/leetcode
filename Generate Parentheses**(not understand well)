@@ -1,0 +1,44 @@
+public class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> list = new ArrayList<String>();
+        backtrack(list, "", 0, 0, n);
+        return list;
+    }
+    private void backtrack(List<String> list, String str, int open, int close, int max){
+        if(str.length() == max*2){
+            list.add(str);
+        }
+        if(open < max){
+            backtrack(list, str + "(", open+1, close, max);
+        }
+        if(close < open){
+            backtrack(list, str + ")", open, close+1, max);
+        }
+    }
+}
+/* List<String> res = new ArrayList<String>();
+        int k = 1;
+        while(k <= n){
+            int x = 1;
+            List<String> list = new ArrayList<String>();
+            StringBuilder str = new StringBuilder();
+            for(String each: res){
+                for(int i = 0; i < each.length(); i++){
+                    StringBuilder temp = new StringBuilder(each);
+                    if(each.charAt(i) == ')'){
+                        temp.insert(i,'(');
+                        temp.insert(i+1,')');
+                        list.add(temp.toString());
+                    }
+                }
+            }
+            while(x <= k){
+                str.append('(');
+                str.append(')');
+                x++;
+            }
+            list.add(str.toString());
+            res = list;
+            k++;
+        }
+        return res;*/
