@@ -1,0 +1,101 @@
+public class Solution {
+    public String getPermutation(int n, int k) {
+        if(n == 1){
+            return "1";
+        }
+        boolean[] chosen = new boolean[n+1];
+        for(int i = 1; i < n+1; i++){
+            chosen[i] = false;
+        }
+        chosen[0] = true;
+        int t = n-1;
+        int f = factorial(t);
+        String res = "";
+        int x = k;
+        while(t > 0){
+            if(x < f){// find the first unchosen item
+                int i = 1;
+               while(chosen[i] == true){
+                    i++;
+                }
+                res += i;
+                chosen[i] = true;
+                x = x % f;
+            }else{
+                int m = x % f;
+                int d = x / f;
+                if(d != 0){
+                    if(m != 0){
+                        d++;
+                    }else{ 
+                        m = f;//when x % f = 0, means the last one in current, so add f for the next round
+                    }
+                    int i = 1;
+                    int a = i;
+                    while(i < n+1){
+                        if(chosen[i] == false){
+                            a = i;
+                            d--;
+                        }
+                        if(d == 0){
+                           chosen[a] = true;
+                            res += a; 
+                            break;
+                        }
+                        i++;
+                    }
+                }else{
+                    d = n;
+                    while(chosen[x] == true){
+                        d--;
+                    }
+                    chosen[d] = true;
+                    res += d;
+                }
+                x = m;
+            }
+            f = f / t;
+            t--;
+        }
+        for(int i = 1; i < n+1; i++){
+            if(chosen[i] == false){
+                res += i;
+            }
+        }
+        return res;
+    }
+    private int factorial(int n){
+        if(n == 1){
+            return 1;
+        }
+        return n * factorial(n-1);
+    }
+}
+       
+
+
+
+
+
+/* boolean[] chosen = new boolean[n+1];
+        LinkedList<String> res = new LinkedList<String>();
+        permute(n, chosen, res, "", 0);
+        return res.get(k-1);
+        //return res;
+    }
+    private void permute(int n, boolean[] chosen, LinkedList<String> res, String str, int l) {
+        if(l == n){
+            res.add(str.toString());
+            l = 0;
+        }
+        for(int i = 1; i <= n; i++){
+            if(!chosen[i]){
+                chosen[i] = true;
+                //str.append(i);
+                permute(n, chosen, res, str+i, l+1);
+                chosen[i] = false;
+                //str.deleteCharAt(l);
+            }
+        }[    ]
+    }
+}*/
