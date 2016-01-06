@@ -1,0 +1,72 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if(preorder.length == 0){
+            return null;
+        }
+        Map<Integer, Integer> indexmap = new HashMap<Integer, Integer>(); 
+        for(int i = 0; i < preorder.length; i++){
+            for(int j = 0; i < inorder.length; j++){
+                if(preorder[i] == inorder[j]){
+                    indexmap.put(preorder[i], j);
+                    break;
+                }
+            }
+        }
+        TreeNode root = new TreeNode(preorder[0]);
+        for(int i = 1; i < preorder.length; i++){
+            int nodeIndex = indexmap.get(preorder[i]);
+            TreeNode curr = root;
+            TreeNode node = new TreeNode(preorder[i]);
+            while(curr != null){
+                if(nodeIndex < indexmap.get(curr.val)){
+                    if(curr.left != null){
+                        curr = curr.left;
+                    }else{
+                        curr.left = node;
+                        break;
+                    }
+                }else{
+                    if(curr.right != null){
+                        curr = curr.right;
+                    }else{
+                        curr.right = node;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        return root;
+    }
+}
+
+//recursive way
+public class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return build(preorder, inorder, 0, inorder.length-1, 0);
+    }
+    private TreeNode build(int[] preorder, int[] inorder, int inS, int inE, int r){
+        if(r > preorder.length || inS > inE){
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[r]);
+        int rootIndex = 0;
+        for(int i = inS; i <= inE; i++){
+            if(inorder[i] == preorder[r]){
+                rootIndex = i;
+            }
+        }
+        root.left = build(preorder, inorder, inS, rootIndex-1, r+1);
+        root.right = build(preorder, inorder, rootIndex+1, inE, r+rootIndex-inS+1);
+        return root;
+    }
+}
