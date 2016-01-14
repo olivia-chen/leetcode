@@ -1,0 +1,86 @@
+public class Solution {
+    public String intToRoman(int num) {
+        StringBuilder res = new StringBuilder();
+        String str = String.valueOf(num);
+        int len = str.length();
+        int i = 0;
+        while(len > 0){
+            res.append(helper(str.charAt(i)-'0', len));
+            i++;
+            len--;
+        }
+        return res.toString();
+    }
+    private StringBuilder helper(int n, int len){
+        StringBuilder str = new StringBuilder();
+        if(len == 4){
+            while(n > 0){
+                str.append('M');
+                n--;
+            }
+        }
+        if(len == 3){
+            if(n == 9){
+                return str.append("CM");
+            }
+            if(n == 4){
+                return str.append("CD");
+            }
+            if(n >= 5){
+                str.append('D');
+            }
+            n %= 5;
+            while(n > 0){
+                str.append('C');
+                n--;
+            }
+        }
+        if(len == 2){
+           if(n == 9){
+                return str.append("XC");
+            }
+            if(n == 4){
+                return str.append("XL");
+            }
+            if(n >= 5){
+                str.append('L');
+            }
+            n %= 5;
+            while(n > 0){
+                str.append('X');
+                n--;
+            } 
+        }
+        if(len == 1){
+           if(n == 9){
+                return str.append("IX");
+            }
+            if(n == 4){
+                return str.append("IV");
+            }
+            if(n >= 5){
+                str.append('V');
+            }
+            n %= 5;
+            while(n > 0){
+                str.append('I');
+                n--;
+            } 
+        }
+        return str;
+    }
+}
+
+// other way:
+int[] values = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+    String[] strs = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+
+    StringBuilder sb = new StringBuilder();
+
+    for(int i=0;i<values.length;i++) {
+        while(num >= values[i]) {
+            num -= values[i];
+            sb.append(strs[i]);
+        }
+    }
+    return sb.toString();
