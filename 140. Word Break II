@@ -1,0 +1,52 @@
+/*
+Given a string s and a dictionary of words dict, add spaces in s to construct a sentence where each word is a valid dictionary word.
+
+Return all such possible sentences.
+
+For example, given
+s = "catsanddog",
+dict = ["cat", "cats", "and", "sand", "dog"].
+
+A solution is ["cats and dog", "cat sand dog"].
+*/
+
+public class Solution {
+    public List<String> wordBreak(String s, Set<String> wordDict) {
+        List<String> res = new ArrayList<String>();
+        if(breakable(s,wordDict)) {
+            helper(s, wordDict, new StringBuilder(), res, 0);
+        }
+        return res;
+    }
+    private void helper(String s, Set<String> wordDict, StringBuilder breakString, List<String> res, int start){
+        if(start == s.length()) {
+            res.add(breakString.toString().trim());
+            
+        }
+        for(int i = start; i < s.length(); i++) {
+            String word = s.substring(start, i+1);
+            int len = breakString.length();
+            if(wordDict.contains(word)) {
+              
+                    helper(s, wordDict, breakString.append(" ").append(word), res, i+1);
+                
+                   breakString.setLength(len);
+                
+            }
+        }
+    }
+    private boolean breakable(String s, Set<String> wordDict) {
+        boolean[] dp = new boolean[s.length()+1];
+        dp[0] = true;
+        for(int i = 1; i <= s.length(); i++){
+            for(int j = 0; j < i; j++){
+                String temp = s.substring(j, i);
+                if(dp[j] && wordDict.contains(temp)){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[s.length()];
+    }
+}
