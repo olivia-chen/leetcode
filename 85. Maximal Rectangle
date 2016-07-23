@@ -1,0 +1,52 @@
+/*Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+
+For example, given the following matrix:
+
+1 0 1 0 0
+1 0 1 1 1
+1 1 1 1 1
+1 0 0 1 0
+Return 6.*/
+temp left初值0， temp right初值n，
+从左往右，如果是0，left[]是0，temp left = j+1 and right[]是n, temp right = j; 
+如果有1，取 temp left 和 left[i] 比大的，再从右往左取 temp right 和 right[i] 比小的； 然后 right - left 就能取到最小重叠部分
+
+public class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        int m = matrix.length;
+        if(m == 0) {
+            return 0;
+        }
+        int n = matrix[0].length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        Arrays.fill(right, n);
+        int[] height = new int[n];
+        int res = 0;
+        for(int i = 0; i < m; i++) {
+            int tempL = 0; int tempR = n;
+            for(int j = 0; j < n; j++) {
+                if(matrix[i][j] == '1') {
+                    height[j]++;
+                    left[j] = Math.max(left[j], tempL);
+                } else {
+                    height[j] = 0;   
+                    left[j] = 0;
+                    tempL = j+1; 
+                }    
+            }
+            for(int j = n-1; j >= 0; j--) {
+                if(matrix[i][j] == '1') {
+                    right[j] = Math.min(right[j], tempR); 
+                } else {
+                    right[j] = n;
+                    tempR = j;
+                }
+            }
+            for(int j = 0; j < n; j++) {
+                res = Math.max(res, (right[j]-left[j]) * height[j]);
+            }
+        }
+        return res;
+    }
+}
