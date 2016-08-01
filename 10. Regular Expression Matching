@@ -1,0 +1,50 @@
+'.' Matches any single character.
+'*' Matches zero or more of the preceding element.
+
+The matching should cover the entire input string (not partial).
+
+The function prototype should be:
+bool isMatch(const char *s, const char *p)
+
+Some examples:
+isMatch("aa","a") → false
+isMatch("aa","aa") → true
+isMatch("aaa","aa") → false
+isMatch("aa", "a*") → true
+isMatch("aa", ".*") → true
+isMatch("ab", ".*") → true
+isMatch("aab", "c*a*b") → true
+
+preceding element, 前序元素，前面的
+a* means 去掉a，*代表0个或者多个a
+public class Solution {
+    public boolean isMatch(String word1, String word2) {
+     /**
+         * f[i][j]: if s[0..i-1] matches p[0..j-1]
+         * if p[j - 1] != '*'
+         *      f[i][j] = f[i - 1][j - 1] && s[i - 1] == p[j - 1]
+         * if p[j - 1] == '*', denote p[j - 2] with x
+         *      f[i][j] is true if any of the following is true
+         *      1) "x*" repeats 0 time and matches empty: f[i][j - 2]
+         *      2) "x*" repeats >= 1 times and matches "x*x": s[i - 1] == x && f[i - 1][j]
+         * '.' matches any single character
+         */
+        boolean[][] dp = new boolean[word1.length()+1][word2.length()+1];
+        dp[0][0] = true;
+        for(int j = 1; j < word2.length(); j+=2) {
+            if (word2.charAt(j) == '*') {
+            dp[0][j+1] = dp[0][j-1];
+        }
+        }
+        for (int i = 1;i <= word1.length(); i++) {
+		    for (int j = 1; j<= word2.length(); j++) {
+		        if(word2.charAt(j-1) != '*') {
+		            dp[i][j] = dp[i-1][j-1] & (word1.charAt(i-1) == word2.charAt(j-1) | word2.charAt(j-1) == '.');
+		        } else {
+		            dp[i][j] = dp[i][j-2] | ((word1.charAt(i-1) == word2.charAt(j-2) | word2.charAt(j-2) == '.') & dp[i-1][j]) ;
+		        }
+		    }
+        }
+        return dp[word1.length()][word2.length()];
+    }
+}
