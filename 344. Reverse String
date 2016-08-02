@@ -1,0 +1,25 @@
+public class Solution {
+    public String reverseString(String s) {
+        /*int i = 0;
+        int j = s.length()-1;
+        char[] chars = s.toCharArray();
+        while(i < j) {
+            char temp = chars[i];
+            chars[i] = chars[j];
+            chars[j] = temp;
+            i++;
+            j--;
+        }
+        return String.valueOf(chars);*/
+        StringBuilder res = new StringBuilder();
+        for(int i = s.length()-1; i >= 0; i--) {
+            res = res.append(s.charAt(i));
+        }
+        return res.toString();
+    }
+}
+
+
+use char array: 35%
+use string "+",  time limit exceed
+use stringBuilder: 4%
