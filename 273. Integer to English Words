@@ -1,0 +1,134 @@
+Convert a non-negative integer to its english words representation. Given input is guaranteed to be less than 231 - 1.
+
+For example,
+123 -> "One Hundred Twenty Three"
+12345 -> "Twelve Thousand Three Hundred Forty Five"
+1234567 -> "One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven"
+
+
+/************/
+private:
+    string LESS20[20] = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve",                                "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+    string TENS[10] = {"", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+    string THOUSANDS[4] = {"", "Thousand", "Million", "Billion"};
+public:
+    string Less1000(int num)
+    {
+        if(num==0) return "";
+        if(num<20) return  LESS20[num] + " ";
+        if(num<100) return TENS[num/10] + " " + Less1000(num%10);
+        return LESS20[num/100] + " Hundred "  + Less1000(num%100);
+    }
+    string numberToString(int num, int i)
+    {
+        if(num==0) return "";
+        if(num%1000==0) return numberToString(num/1000, i+1);
+        return numberToString(num/1000, i+1) + Less1000(num%1000)  + THOUSANDS[i] + " ";
+    }
+    string numberToWords(int num) {
+        if(num==0) return "Zero";
+        string res = numberToString(num, 0);
+        return res.substr(0, res.find_last_not_of(' ')+1);
+    }
+/************/
+
+public class Solution {
+    private final HashMap<String, String> unitMap = unitMap();
+    private final HashMap<String, String> firstTensMap = firstTensMap();
+    private final HashMap<String, String> tensMap = tensMap();
+    public String numberToWords(int num) {
+        String res = "";
+        String number = String.valueOf(num);
+        if(number.length() > 3) {
+            if(number.length() > 6) {
+                if(number.length() > 9) {//billion
+                    res = billionPart(number.substring(0, number.length()-9)) + millionPart(number.substring(number.length()-9, number.length()-6)) + thousandPart(number.substring(number.length()-6, number.length()-3)) + helper(number.substring(number.length()-3));
+                }else{//million
+                    res = millionPart(number.substring(0, number.length()-6)) + thousandPart(number.substring(number.length()-6, number.length()-3)) + helper(number.substring(number.length()-3));
+                }
+            }else{//thousand
+                res = thousandPart(number.substring(0, number.length()-3)) + helper(number.substring(number.length()-3));
+            }
+        }else{//hundred, <=3
+            res = helper(number);
+        }
+        if(res.charAt(res.length()-1) == ' ') {
+            res = res.substring(0,res.length()-1);
+        }
+        return res;
+    }
+    private String billionPart(String number) {
+            return helper(number) + " Billion ";
+    }
+    private String millionPart(String number) {
+            return number.equals("000") ? "" : helper(number) + " Million ";
+    }
+    private String thousandPart(String number) {
+            return number.equals("000") ? "" : helper(number) + " Thousand ";
+    }
+    private String helper(String str) {
+        if(str.length() == 1) {
+            return str.equals("0")? "Zero" : unitToEnglish(str);
+        } else if(str.length() == 2) {
+            return tensToEnglish(str);
+        } else {
+            if(str.charAt(0) == '0') {
+                return tensToEnglish(str.substring(1));
+            }
+            return str.substring(1).equals("00") ? unitMap.get(str.charAt(0) + "") + " Hundred" : unitMap.get(str.charAt(0) + "") + " Hundred "+ tensToEnglish(str.substring(1));
+        }
+    }
+    private HashMap<String, String> unitMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("0", "");
+        map.put("1", "One");
+        map.put("2", "Two");
+        map.put("3", "Three");
+        map.put("4", "Four");
+        map.put("5", "Five");
+        map.put("6", "Six");
+        map.put("7", "Seven");
+        map.put("8", "Eight");
+        map.put("9", "Nine");
+        return map;
+    }
+    private HashMap<String, String> firstTensMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("10", "Ten");
+        map.put("11", "Eleven");
+        map.put("12", "Twelve");
+        map.put("13", "Thirteen");
+        map.put("14", "Fourteen");
+        map.put("15", "Fifteen");
+        map.put("16", "Sixteen");
+        map.put("17", "Seventeen");
+        map.put("18", "Eighteen");
+        map.put("19", "Nineteen");
+        return map;
+    }
+    private HashMap<String, String> tensMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("2", "Twenty");
+        map.put("3", "Thirty");
+        map.put("4", "Forty");
+        map.put("5", "Fifty");
+        map.put("6", "Sixty");
+        map.put("7", "Seventy");
+        map.put("8", "Eighty");
+        map.put("9", "Ninety");
+        return map;
+    }
+    private String unitToEnglish(String str) {
+        return unitMap.get(str);
+    }
+    private String tensToEnglish(String str) {
+        if(str.charAt(0) == '1') {
+            return firstTensMap.get(str);
+        } 
+        if(str.charAt(0) == '0'){
+            return unitMap.get(str.charAt(1)+""); 
+        }
+        return str.charAt(1)=='0' ? tensMap.get(str.charAt(0) + ""):tensMap.get(str.charAt(0) + "") + " " + unitToEnglish(str.charAt(1) + "");
+    }
+    
+}
