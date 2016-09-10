@@ -1,0 +1,36 @@
+Given two arrays, write a function to compute their intersection.
+
+Example:
+Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2].
+
+Note:
+Each element in the result must be unique.
+The result can be in any order.
+
+public class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        HashSet<Integer> set = new HashSet<Integer>();
+        int l1 = 0, l2 = 0;
+        while(l1 < nums1.length && l2 < nums2.length) {
+           if(nums1[l1] < nums2[l2]) {
+               l1++;
+           }else if(nums1[l1] > nums2[l2]) {
+               l2++;
+           } else {
+               if(!set.contains(nums1[l1])){
+                   set.add(nums1[l1]);
+               }
+               l1++;
+               l2++;
+           }
+        }
+        int[] res = new int[set.size()];
+        int i = 0;
+        for(Integer x : set) {
+            res[i++] = x;
+        }
+        return res;
+    }
+}
