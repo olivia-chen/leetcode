@@ -1,0 +1,26 @@
+/*
+Given an absolute path for a file (Unix-style), simplify it.
+
+For example,
+path = "/home/", => "/home"
+path = "/a/./b/../../c/", => "/c"
+*/
+
+public class Solution {
+    public String simplifyPath(String path) {
+        Stack<String> stack = new Stack<String>();
+        HashSet<String> skip = new HashSet<String>(Arrays.asList("..",".",""));
+        for(String str : path.split("/")) {
+            if(str.equals("..") && !stack.isEmpty()) {
+                stack.pop();
+            } else if (!skip.contains(str)) {
+                stack.push(str);
+            }
+        }
+        String res = "";
+        for(String str: stack) {
+            res += "/" + str;
+        }
+        return res.isEmpty()? "/" : res;
+    }
+}
