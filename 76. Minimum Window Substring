@@ -1,0 +1,64 @@
+/*Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).
+
+For example,
+S = "ADOBECODEBANC"
+T = "ABC"
+Minimum window is "BANC".
+
+Note:
+If there is no such window in S that covers all characters in T, return the empty string "".
+
+If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in S.
+*/
+
+public class Solution {
+    public String minWindow(String s, String t) {
+        if(s == null || s.length() < t.length() || s.length() == 0){
+            return "";
+        }
+        int end = 0;
+        int start = 0;
+        int left = 0;
+        int len = Integer.MAX_VALUE;
+        //1. put (t.each character : occurence) in the map
+        HashMap<Character, Integer> tmap = new HashMap<Character, Integer>();
+        for(Character charT : t.toCharArray()) {
+            if(tmap.containsKey(charT)) {
+                tmap.put(charT, tmap.get(charT) + 1);
+            } else {
+                tmap.put(charT, 1);
+            }
+        }
+        //2. traverse the s string, find the window
+        char[] ss = s.toCharArray();
+        int count = 0;
+        while(end < ss.length) {
+            //2.1 find the first window
+            if(tmap.containsKey(ss[end])) {
+                int n = tmap.get(ss[end]) - 1;
+                tmap.put(ss[end], n);
+                if(n >= 0) { // to know if the found string inclue the whole T
+                    count++;
+                }
+            }
+            while(count == t.length()) {
+                //2.2 record the current window
+                if(end-start+1 < len) {
+                    left = start;
+                    len = end - start + 1;
+                }
+                //2.3 find the smaller window
+                if(tmap.containsKey(ss[start])) {
+                    int n = tmap.get(ss[start]) + 1;
+                    tmap.put(ss[start], n);
+                    if(n > 0) {
+                        count--;
+                    }
+                }
+                start++;
+            }
+            end++;
+        }
+        return len > s.length() ? "" : s.substring(left, left + len);
+    }
+}
