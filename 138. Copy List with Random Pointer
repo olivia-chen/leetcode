@@ -1,0 +1,56 @@
+/**
+ * Definition for singly-linked list with a random pointer.
+ * class RandomListNode {
+ *     int label;
+ *     RandomListNode next, random;
+ *     RandomListNode(int x) { this.label = x; }
+ * };
+ */
+ /*
+ SOLUTION:
+ two loop: the first is to build the linked list with "next", the second is to link the random
+ two hashmap, one is for the orignal list:
+ node1 --- 1
+ node2 --- 2
+ node3 --- 3
+ the other is for the copy list:
+ 1 --- copy node1
+ 2 --- copy node2
+ 3 --- copy node3
+ when to find the random of the node, find the index in the original map, and the copy node in the copy map.
+ */
+public class Solution {
+    public RandomListNode copyRandomList(RandomListNode head) {
+        if(head == null){
+            return null;
+        }
+        HashMap<RandomListNode, Integer> ori = new HashMap<>();
+        HashMap<Integer,RandomListNode> co = new HashMap<>();
+        RandomListNode curr = head;
+        RandomListNode dummy = new RandomListNode(0);
+        RandomListNode currCopy = dummy;
+        int count = 1;
+        while(curr != null) {
+            ori.put(curr, count);
+            RandomListNode copy = new RandomListNode(curr.label);
+            currCopy.next = copy;
+            curr = curr.next;
+            currCopy = currCopy.next;
+            co.put(count, currCopy);
+            count++;
+        }
+        curr = head;
+        currCopy = dummy.next;
+        while(curr != null) {
+            if(curr.random == null) {
+                currCopy.random = null;
+            } else {
+                int index = ori.get(curr.random);
+                currCopy.random = co.get(index);
+            }
+            curr = curr.next;
+            currCopy = currCopy.next;
+        }
+        return dummy.next;
+    }
+}
