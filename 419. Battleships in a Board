@@ -1,0 +1,23 @@
+public class Solution {//check up and left
+    public int countBattleships(char[][] board) {
+        int res = 0;
+        int row = board.length;
+        if(row == 0) {
+            return res;
+        }
+        int col = board[0].length;
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++) {
+                if(board[i][j] == 'X') {
+                    boolean left = (j == 0 ? true : board[i][j-1] == '.');
+                    boolean up = (i == 0 ? true : board[i-1][j] == '.');
+                    if(left  && up ) {
+                        res++;
+                    }
+                }    
+            }
+        }
+        
+        return res;
+    }
+}
