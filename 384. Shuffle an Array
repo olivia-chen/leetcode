@@ -1,0 +1,56 @@
+/*
+SOLUTION:
+make a new copied array, random index, every time move the last to the chosen index position.
+*/
+
+public class Solution {
+    int[] nums;
+    ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+    
+    public Solution(int[] nums) {
+        this.nums = new int[nums.length];
+        for(int i = 0; i < nums.length; i++) {
+            this.nums[i] = nums[i];
+        }
+    }
+    
+    
+    /** Resets the array to its original configuration and return it. */
+    public int[] reset() {
+        return this.nums;
+    }
+    
+    /** Returns a random shuffling of the array. */
+    public int[] shuffle() {
+        int[] res = new int[this.nums.length];
+        if(this.nums.length == 0) {
+            return res;
+        }
+        int[] rest = new int[this.nums.length];
+        for(int i = 0; i < nums.length; i++) {
+            rest[i] = nums[i];
+        }
+        int len = rest.length;
+        for(int i = 0; i < this.nums.length; i++) {
+            Random rand = new Random();
+            int index = rand.nextInt(len);
+            if(index == len-1) {
+                res[i] = rest[len-1];
+            }else{
+                res[i] = rest[index];
+                rest[index] = rest[len-1];
+            }
+            len--;
+        }
+         
+        return res;
+    }
+     
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(nums);
+ * int[] param_1 = obj.reset();
+ * int[] param_2 = obj.shuffle();
+ */
