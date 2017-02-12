@@ -1,0 +1,32 @@
+public class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        //List<Integer> list = new ArrayList<>();
+        if(nums.length == 0) {
+            return new int[0];
+        }
+        int[] res = new int[nums.length-k+1];
+        int left = 0;
+        int right = k;
+        int max = Integer.MIN_VALUE;
+        int index = -1;
+        while(right <= nums.length) {
+            if(index < left) {//if the max is out of the window, find max in the current window
+                max = Integer.MIN_VALUE;
+                for(int i = left; i < left+k; i++) {
+                    if(nums[i] >= max) {
+                        max = nums[i];
+                        index = i;
+                    }
+                }
+            }else{//if the max is still in current window, compare the new item and current max
+                if(nums[right-1] >= max) {
+                    max = nums[right-1];
+                }
+            }
+            res[left] = max;
+            left++;
+            right = left + k;
+        }
+        return res;
+    }
+}
